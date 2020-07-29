@@ -1,0 +1,37 @@
+.wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 12px;
+    color: var(--inputLabelText);
+    margin-bottom: 6px;
+}
+
+.input {
+    height: 40px;
+    border-radius: 4px;
+    border: solid 1px var(--primaryBorder);
+    outline: 0;
+    margin-bottom: 24px;
+    padding: 0 8px;
+    font-size: 14px;
+}
+
+.input::placeholder {
+    color: var(--inputPlaceholder);
+}
+
+.input.inputError {
+    border: solid 1px var(--errorBg);
+}
+
+.error {
+    font-size: 12px;
+    color: var(--errorBg);
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+}

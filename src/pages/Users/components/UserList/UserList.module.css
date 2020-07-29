@@ -1,0 +1,50 @@
+.table {
+    border: solid 1px var(--primaryBorder);
+    background-color: var(--white);
+    border-radius: 4px;
+    text-align: left;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table thead tr {
+    height: 48px;
+    color: var(--secondaryText);
+    font-weight: 600;
+}
+
+.table tr {
+    border: solid 1px var(--primaryBorder);
+}
+
+.table tbody tr {
+    height: 64px;
+}
+
+.table td, .table th {
+    padding: 0 28px;
+}
+
+.actionButton {
+    min-width: auto;
+    width: 80px;
+    height: 32px;
+    margin-right: 16px;
+}
+
+.table thead th:nth-child(1),
+.table thead th:nth-child(2),
+.table thead th:nth-child(3) {
+    width: calc(80% / 3);
+}
+
+.table thead th:nth-child(4) {
+    width: 20%;
+}
+
+.table .emptyRow {
+    height: 200px;
+    text-align: center;
+    font-size: 32px;
+    color: var(--secondaryText);
+}
