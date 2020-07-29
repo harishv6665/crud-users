@@ -47,6 +47,7 @@ export default class CreateUpdateModal extends React.Component {
                 }
                 return { valid: false, error: 'Last name is required' };
             case 'email':
+                /* eslint-disable */
                 const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 const isEmailValid = emailRegex.test(value);
                 if(value.length > 0 && isEmailValid) {
