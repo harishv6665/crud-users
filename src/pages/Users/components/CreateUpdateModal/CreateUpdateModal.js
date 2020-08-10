@@ -34,8 +34,8 @@ export default class CreateUpdateModal extends React.Component {
         }
     }
 
-    fieldValidator({ value, field }) {
-        switch (field) {
+    fieldValidator({ value, name }) {
+        switch (name) {
             case 'firstName':
                 if(value.length > 0) {
                     return { valid: true, error: '' };
@@ -62,23 +62,26 @@ export default class CreateUpdateModal extends React.Component {
         }
     }
 
-    onFieldChange({ value, field }) {
-        const validation = this.fieldValidator({ value, field });
+    onFieldChange(event) {
+        const { name, value } = event.target;
+        const validation = this.fieldValidator({ value, name });
         if(validation.valid) {
             this.setState({ userForm: {
                     ...this.state.userForm,
-                    [field]: value
+                    [name]: value,
+                    [`${name}Error`]: ""
                 }});
         } else {
             this.setState({ userForm: {
                     ...this.state.userForm,
-                    [field]: value,
-                    [`${field}Error`]: validation.error
+                    [name]: value,
+                    [`${name}Error`]: validation.error
                 }});
         }
     }
 
-    onSubmit() {
+    onSubmit(event) {
+        event.preventDefault();
         const {id, firstName, firstNameError, lastName, lastNameError, email, emailError } = this.state.userForm;
         const mode = id ? 'UPDATE' : 'CREATE';
         if(!firstNameError && !lastNameError && !emailError && firstName && lastName && email) {
@@ -86,31 +89,30 @@ export default class CreateUpdateModal extends React.Component {
         }
     }
 
-    componentWillUnmount() {
-        console.log('error')
-    }
-
     render() {
         const { id, firstName, firstNameError, lastName, lastNameError, email, emailError } = this.state.userForm;
         return(
             <Modal title={`${id ? 'Update' : 'Create'} User`}>
-                <div>
+                <form noValidate onSubmit={this.onSubmit}>
                     <Input
                         label="First Name"
+                        name="firstName"
                         value={firstName}
-                        onChange={(e) => this.onFieldChange({value: e.target.value, field: 'firstName'})}
+                        onChange={this.onFieldChange}
                         error={firstNameError}
                     />
                     <Input
                         label="Last Name"
+                        name="lastName"
                         value={lastName}
-                        onChange={(e) => this.onFieldChange({ value: e.target.value, field: 'lastName' })}
+                        onChange={this.onFieldChange}
                         error={lastNameError}
                     />
                     <Input
                         label="Email"
+                        name="email"
                         value={email}
-                        onChange={(e) => this.onFieldChange({ value: e.target.value, field: 'email' })}
+                        onChange={this.onFieldChange}
                         error={emailError}
                     />
                     <div className={styles.footer}>
@@ -120,11 +122,11 @@ export default class CreateUpdateModal extends React.Component {
                             variant={variantTypes.invert}
                         />
                         <Button
+                            type="submit"
                             title={`${id ? 'Save' : 'Add'}`}
-                            onClick={this.onSubmit}
                         />
                     </div>
-                </div>
+                </form>
             </Modal>
         )
     }

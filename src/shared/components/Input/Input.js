@@ -5,6 +5,7 @@ export default function Input({
       label,
       value,
       error,
+      name = "",
       onChange,
       type = "text",
       customStyles = {},
@@ -16,6 +17,7 @@ export default function Input({
             <input
                 placeholder={placeholder}
                 value={value}
+                name={name}
                 type={type}
                 className={`${styles.input} ${error ? styles.inputError : ''} ${customStyles.input}`}
                 onChange={onChange}

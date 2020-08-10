@@ -6,7 +6,7 @@ export const variantTypes = {
     danger: 'danger',
 }
 
-export default function Button({ title, onClick, variant, customStyles = {} }) {
+export default function Button({ title, onClick, variant, customStyles = {}, type = "button" }) {
     return(
         <button
             className={`
@@ -14,6 +14,7 @@ export default function Button({ title, onClick, variant, customStyles = {} }) {
                 ${customStyles.button} 
                 ${variantTypes[variant] ? [styles[variantTypes[variant]]] : ''}
             `}
+            type={type}
             onClick={onClick}
         >{title}</button>
     )
