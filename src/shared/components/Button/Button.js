@@ -6,16 +6,16 @@ export const variantTypes = {
     danger: 'danger',
 }
 
-export default function Button({ title, onClick, variant, customStyles = {}, type = "button" }) {
-    return(
-        <button
-            className={`
-                ${styles.button} 
-                ${customStyles.button} 
-                ${variantTypes[variant] ? [styles[variantTypes[variant]]] : ''}
-            `}
-            type={type}
-            onClick={onClick}
-        >{title}</button>
-    )
-}
+const Button = ({ title, onClick, variant, customStyles = {}, type = "button" }) => (
+    <button
+        className={`
+            ${styles.button} 
+            ${customStyles.button} 
+            ${variantTypes[variant] ? [styles[variantTypes[variant]]] : ''}
+        `}
+        type={type}
+        onClick={onClick}
+    >{title}</button>
+)
+
+export default Button;

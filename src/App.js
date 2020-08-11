@@ -2,13 +2,11 @@ import React from 'react';
 import Users from "./pages/Users/Users";
 import Header from "./shared/components/Header/Header";
 
-function App() {
-  return (
+const App = () => (
     <React.Fragment>
-      <Header />
-      <Users />
+        <Header />
+        <Users />
     </React.Fragment>
-  );
-}
+)
 
 export default App;
