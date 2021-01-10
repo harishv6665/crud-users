@@ -6,22 +6,20 @@ import Button, { variantTypes } from "../../../../shared/components/Button/Butto
 import useForm from "./useForm";
 
 const CreateUpdateModal = ({ user, onSubmit, onCancel}) => {
-    console.log(useForm);
     const { formValues, onFieldChange } = useForm(user);
 
     const onFormSubmit = (event) => {
         event.preventDefault();
         const {id, firstName, firstNameError, lastName, lastNameError, email, emailError } = formValues;
-        const mode = id ? 'UPDATE' : 'CREATE';
         if(!firstNameError && !lastNameError && !emailError && firstName && lastName && email) {
-            onSubmit({ mode, user: { id, firstName, lastName, email } });
+            onSubmit({ user: { id, firstName, lastName, email } });
         }
     }
 
     const { id, firstName, firstNameError, lastName, lastNameError, email, emailError } = formValues;
     return(
         <Modal title={`${id ? 'Update' : 'Create'} User`}>
-            <div>
+            <form noValidate onSubmit={onFormSubmit}>
                 <Input
                     label="First Name"
                     name="firstName"
@@ -51,11 +49,10 @@ const CreateUpdateModal = ({ user, onSubmit, onCancel}) => {
                     />
                     <Button
                         type="submit"
-                        onClick={onSubmit}
                         title={`${id ? 'Save' : 'Add'}`}
                     />
                 </div>
-            </div>
+            </form>
         </Modal>
     )
 }

@@ -1,4 +1,5 @@
-import { Machine } from 'xstate';
+import { Machine, assign } from 'xstate';
+import uuid from 'uuid-v4';
 
 const usersMachine = Machine({
   id: 'users',
@@ -47,43 +48,59 @@ const usersMachine = Machine({
         },
         EDIT: {
           target: 'editing',
+          actions: assign((_, {user}) => ({
+            activatedUser: user
+          }))
         },
         DELETE: {
-          target: 'deleting'
+          target: 'deleting',
+          actions: assign((_, {user}) => ({
+            activatedUser: user
+          }))
         },
       }
     },
     creating: {
       on: {
         COMMIT_ADD: {
-          target: 'idle'
-        },
-        CANCEL: {
-            target: 'idle'
-          }
+          target: 'idle',
+          actions: assign(({users}, {user}) => ({
+              users: [...users, {id: uuid(), ...user}]
+            })
+          ),
+        }
       }
     },
     editing: {
       on: {
         COMMIT_EDIT: {
-          target: 'idle'
+          target: 'idle',
+          actions: assign(({users}, {user}) => ({
+              users: users.map(u => u.id === user.id ? user : u),
+              activatedUser: {}
+            })
+          ),
         },
-        CANCEL: {
-            target: 'idle'
-          }
       }
     },
     deleting: {
       on: {
         COMMIT_DELETE: {
-          target: 'idle'
+          target: 'idle',
+          actions: assign(({users, activatedUser}) => ({
+            users: users.filter(user => user.id !== activatedUser.id),
+            activatedUser: {}
+          })),
         },
-        CANCEL: {
-            target: 'idle'
-          }
       }
     }
   },
+  on: {
+    CANCEL: {
+        target: 'idle',
+        actions: assign({ activatedUser: {}})
+    }
+  }
 });
 
 export default usersMachine;

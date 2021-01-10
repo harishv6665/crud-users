@@ -11,17 +11,21 @@ const Users = () => {
     const [state, send] = useMachine(usersMachine);
 
     const onAdd = useCallback(() => send('ADD'), [send]);
-    const onEdit = useCallback(() => send('EDIT', {}), [send]);
+    const onEdit = useCallback((user) => {
+        send('EDIT', {user})
+    }, [send]);
 
-    const handleCreateUpdate = useCallback(() => {
+    const handleCreateUpdate = useCallback(({user}) => {
         if (state.matches('editing')) {
-            send('COMMIT_EDIT');
+            send('COMMIT_EDIT', {user});
         } else {
-            send('COMMIT_ADD');
+            send('COMMIT_ADD', {user});
         }
     }, [send, state]);
 
-    const onDelete = useCallback(() => send('DELETE', {}), [send]);
+    const onDelete = useCallback((user) => {
+        send('DELETE', {user})
+    }, [send]);
     const onCommitDelete = useCallback(() => send('COMMIT_DELETE'), [send]);
 
     const onCancel = useCallback(() => send('CANCEL'), [send]);
