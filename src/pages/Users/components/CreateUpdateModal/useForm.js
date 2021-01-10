@@ -16,7 +16,7 @@ const useForm = (user) => {
         setFormValues({
             ...user
         })
-    }, []);
+    }, [setFormValues, user]);
 
     const onFieldChange = (event) => {
         const { name, value } = event.target;
