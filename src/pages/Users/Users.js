@@ -1,36 +1,54 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Button from "../../shared/components/Button/Button";
 import UserList from "./components/UserList/UserList";
 import CreateUpdateModal from "./components/CreateUpdateModal/CreateUpdateModal";
 import styles from './Users.module.css';
 import DeleteModal from "./components/DeleteModal/DeleteModal";
+import { useMachine } from '@xstate/react';
+import usersMachine from './Users.machine';
 
 const Users = () => {
+    const [state, send] = useMachine(usersMachine);
 
+    const onAdd = useCallback(() => send('ADD'), [send]);
+    const onEdit = useCallback(() => send('EDIT', {}), [send]);
+
+    const handleCreateUpdate = useCallback(() => {
+        if (state.matches('editing')) {
+            send('COMMIT_EDIT');
+        } else {
+            send('COMMIT_ADD');
+        }
+    }, [send, state]);
+
+    const onDelete = useCallback(() => send('DELETE', {}), [send]);
+    const onCommitDelete = useCallback(() => send('COMMIT_DELETE'), [send]);
+
+    const onCancel = useCallback(() => send('CANCEL'), [send]);
     return (
         <div className={styles.wrapper}>
             <div className={styles.actionBar}>
                 <Button
                     title="Add"
                     customStyles={{ button: styles.addButton }}
-                    onClick={() => {}}
+                    onClick={onAdd}
                 />
             </div>
             <div className={styles.content}>
                 <UserList
-                    users={[]}
-                    onDelete={() => {}}
-                    onUpdate={() => {}}
+                    users={state.context.users}
+                    onDelete={onDelete}
+                    onUpdate={onEdit}
                 />
-                {false && <CreateUpdateModal
-                    user={{}}
-                    onSubmit={() => {}}
-                    onCancel={() => {}}
+                {(state.matches('creating') || state.matches('editing')) && <CreateUpdateModal
+                    user={state.context.activatedUser}
+                    onSubmit={handleCreateUpdate}
+                    onCancel={onCancel}
                 />}
-                {false && <DeleteModal
-                    user={{}}
-                    onSubmit={() => {}}
-                    onCancel={() => {}}
+                {state.matches('deleting') && <DeleteModal
+                    user={state.context.activatedUser}
+                    onSubmit={onCommitDelete}
+                    onCancel={onCancel}
                 />}
             </div>
         </div>

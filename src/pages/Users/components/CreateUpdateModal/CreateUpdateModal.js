@@ -21,7 +21,7 @@ const CreateUpdateModal = ({ user, onSubmit, onCancel}) => {
     const { id, firstName, firstNameError, lastName, lastNameError, email, emailError } = formValues;
     return(
         <Modal title={`${id ? 'Update' : 'Create'} User`}>
-            <form noValidate onSubmit={onFormSubmit}>
+            <div>
                 <Input
                     label="First Name"
                     name="firstName"
@@ -51,10 +51,11 @@ const CreateUpdateModal = ({ user, onSubmit, onCancel}) => {
                     />
                     <Button
                         type="submit"
+                        onClick={onSubmit}
                         title={`${id ? 'Save' : 'Add'}`}
                     />
                 </div>
-            </form>
+            </div>
         </Modal>
     )
 }

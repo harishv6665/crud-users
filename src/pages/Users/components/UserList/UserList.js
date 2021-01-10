@@ -22,13 +22,13 @@ const UserList = ({ users, onDelete, onUpdate }) => (
                     <Button
                         title="Edit"
                         customStyles={{ button: styles.actionButton }}
-                        onClick={() => onUpdate(user.id)}
+                        onClick={() => onUpdate(user)}
                     />
                     <Button
                         title="Delete"
                         variant={variantTypes.danger}
                         customStyles={{ button: styles.actionButton }}
-                        onClick={() => onDelete(user.id)}
+                        onClick={() => onDelete(user)}
                     />
                 </td>
             </tr>
